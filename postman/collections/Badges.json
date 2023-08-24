@@ -5,5 +5,28 @@
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_uid": "29311516-f80f4237-3ab5-4f5b-b08a-930a46bbb00e"
 	},
-	"item": []
+	"item": [
+		{
+			"name": "Get Badges",
+			"id": "d751abb2-009d-4f8d-8e97-92ebcbd7fc0e",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/badges",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"badges"
+					]
+				}
+			},
+			"response": []
+		}
+	]
 }
