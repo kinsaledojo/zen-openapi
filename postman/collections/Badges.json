@@ -1,14 +1,14 @@
 {
 	"info": {
-		"_postman_id": "f80f4237-3ab5-4f5b-b08a-930a46bbb00e",
+		"_postman_id": "af47782a-5cc9-4e0b-8d75-3dc5cdd97e4f",
 		"name": "Badges",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "29311516-f80f4237-3ab5-4f5b-b08a-930a46bbb00e"
+		"_uid": "29311516-af47782a-5cc9-4e0b-8d75-3dc5cdd97e4f"
 	},
 	"item": [
 		{
 			"name": "Get Badges",
-			"id": "d751abb2-009d-4f8d-8e97-92ebcbd7fc0e",
+			"id": "77c2d2ef-0695-45fa-9bea-c7ed3e4988c1",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
