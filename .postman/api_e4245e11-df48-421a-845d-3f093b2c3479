@@ -9,15 +9,19 @@ id = e4245e11-df48-421a-845d-3f093b2c3479
 
 [config.relations.collections]
 rootDirectory = postman/collections
-files[] = {"id":"29311516-f80f4237-3ab5-4f5b-b08a-930a46bbb00e","path":"Badges.json","metaData":{}}
-files[] = {"id":"29311516-419cb9f1-306c-46df-8383-3aa71d85ad34","path":"Belts.json","metaData":{}}
+files[] = {"id":"29311516-af47782a-5cc9-4e0b-8d75-3dc5cdd97e4f","path":"Badges.json","metaData":{}}
+files[] = {"id":"29311516-fbfbe79e-f03b-4f4b-98b0-9680a3a064bd","path":"Belts.json","metaData":{}}
 
 [config.relations.collections.metaData]
 
 [config.relations.apiDefinition]
 rootDirectory = postman/schemas
-files[] = {"path":"index.yaml","metaData":{}}
+files[] = {"path":"awards/openapi.yaml","metaData":{}}
+files[] = {"path":"badges/openapi.yaml","metaData":{}}
+files[] = {"path":"belts/openapi.yaml","metaData":{}}
+files[] = {"path":"openapi.yaml","metaData":{}}
+files[] = {"path":"users/openapi.yaml","metaData":{}}
 
 [config.relations.apiDefinition.metaData]
-type = openapi:3_1
-rootFiles[] = index.yaml
+rootFiles[] = openapi.yaml
+type = openapi:3
