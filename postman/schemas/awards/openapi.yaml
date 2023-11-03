@@ -1,0 +1,121 @@
+openapi: 3.0.3
+info:
+  title: CoderDojo Zen Awards API
+  description: This is a sample server for a pet store.
+  termsOfService: http://example.com/terms/
+  contact:
+    name: API Support
+    url: http://www.example.com/support
+    email: support@example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about this API
+  url: http://api.coderdojokinsale.com
+servers:
+  - url: http://192.168.1.20:8084
+    description: Awards Service
+  - url: http://192.168.1.20:8080
+    description: API Gateway
+paths:
+  /awards:
+    summary: A sample summary for this `Path Object`.
+    description: A sample description for this `Path Object`.
+    get:
+      tags:
+        - "Awards"
+      summary: A sample summary for this `Path Item Object`.
+      description: A sample description for this `Path Item Object`.
+      externalDocs:
+        description: External Documentation
+        url: http://www.example.com/
+      operationId: getAwards
+      responses:
+        default:
+          description: "Default response for GET"
+    post:
+      tags:
+        - "Awards"
+      summary: A sample summary for this `Path Item Object`.
+      description: A sample description for this `Path Item Object`.
+      externalDocs:
+        description: External Documentation
+        url: http://www.example.com/
+      operationId: createAwards
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - bearerAuth: []
+  /awards/{id}:
+    parameters:
+      - $ref: '#/components/parameters/ID'
+    get:
+      tags:
+        - "Awards"
+      summary: A sample summary for this `Path Item Object`.
+      description: A sample description for this `Path Item Object`.
+      externalDocs:
+        description: External Documentation
+        url: http://www.example.com/
+      operationId: getBadgeById
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+    put:
+      tags:
+        - "Awards"
+      summary: A sample summary for this `Path Item Object`.
+      description: A sample description for this `Path Item Object`.
+      externalDocs:
+        description: External Documentation
+        url: http://www.example.com/
+      operationId: updateBadgeById
+      responses:
+        200:
+          description: Returns a list of all lights in the system. If there are no lights in the system then the bridge will return an empty object, {}.
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags:
+        - "Awards"
+      summary: A sample summary for this `Path Item Object`.
+      description: A sample description for this `Path Item Object`.
+      externalDocs:
+        description: External Documentation
+        url: http://www.example.com/
+      operationId: deleteBadgeById
+      responses:
+        200:
+          description: Returns a list of all lights in the system. If there are no lights in the system then the bridge will return an empty object, {}.
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  parameters:
+    ID:
+      name: id
+      required: true
+      in: path
+      description: ID of the resource
+      schema:
+        type: string
+tags:
+  - name: Awards
+    description: A sample description for this `Tag Object`
+    externalDocs:
+        description: External Documentation
+        url: http://www.example.com/

@@ -1,77 +1,201 @@
-openapi: '3.1.0'
+openapi: 3.0.3
 info:
-  version: '1.0.0'
-  title: 'Sample API'
-  description: Buy or rent spacecrafts
+  title: CoderDojo API
+  description: This is a sample server for a pet store.
+  termsOfService: http://example.com/terms/
+  contact:
+    name: API Support
+    url: http://www.example.com/support
+    email: support@example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about this API
+  url: http://api.coderdojokinsale.com
+servers: 
+  - url: https://api.coderdojokinsale.com/
+    description: Remote
+  - url: http://localhost:8080
+    description: Local
 
 paths:
-  /spacecrafts/{spacecraftId}:
-    parameters:
-      - name: spacecraftId
-        description: The unique identifier of the spacecraft
-        in: path
+  /awards:
+    $ref: ./awards/openapi.yaml#/paths/~1awards
+  /awards/{id}:
+    $ref: ./awards/openapi.yaml#/paths/~1awards~1{id}
+  /badges:
+    $ref: ./badges/openapi.yaml#/paths/~1badges
+  /badges/{id}:
+    $ref: ./badges/openapi.yaml#/paths/~1badges~1{id}
+  /belts:
+    $ref: ./belts/openapi.yaml#/paths/~1belts
+  /belts/{id}:
+    $ref: ./belts/openapi.yaml#/paths/~1belts~1{id}
+  /users:
+    $ref: ./users/openapi.yaml#/paths/~1users
+  /users/{id}:
+    $ref: ./users/openapi.yaml#/paths/~1users~1{id}
+  /oauth/token:
+    servers:
+      - url: http://192.168.1.20:8083
+        description: Authentication server
+    post:
+      summary: Get all lights
+      description: Gets a list of all lights that have been discovered by the bridge.
+      tags:
+        - "Authentication"
+      requestBody:
+        description: Optional description in *Markdown*
         required: true
-        schema:
-          $ref: '#/components/schemas/SpacecraftId'
-    get:
-      summary: Read a spacecraft
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                grant_type: 
+                  type: string
+                  example: password
+                scope:
+                  type: string
+                  example: webclient
+                username:
+                  type: string
+                  example: anthony.nolan
+                password:
+                  type: string
+                  example: pa55word
+          text/plain:
+            schema:
+              type: string
       responses:
-        '200':
-          description: The spacecraft corresponding to the provided `spacecraftId`
+        200:
+          description: Returns a list of all lights in the system. If there are no lights in the system then the bridge will return an empty object, {}.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Spacecraft'
-        404:
-          description: No spacecraft found for the provided `spacecraftId`
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                  expires_in:
+                    type: integer
+                  scope:
+                    type: string
+                  jti:
+                    type: string
+        400:
+          description: Bad Request.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        500:
-          description: Unexpected error
+                type: object
+                properties:
+                  error:
+                    type: string
+                  error_description:
+                    type: string
+        401:
+          description: Unauthorised.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                type: object
+                properties:
+                  error:
+                    type: string
+                  error_description:
+                    type: string
+  /auth/user:
+    servers:
+      - url: http://192.168.1.20:8083
+        description: Authentication server
+    post:
+      summary: Search for new lights
+      description: Starts searching for new lights. The bridge will open the network for 40s. The overall search might take longer since the configuration of (multiple) new devices can take longer. If many devices are found the command will have to be issued a second time after discovery time has elapsed. If the command is received again during search the search will continue for at least an additional 40s. When the search has finished, new lights will be available using the get new lights command. In addition, the new lights will now be available by calling get all lights or by calling get group attributes on group 0. Group 0 is a special group that cannot be deleted and will always contain all lights known by the bridge.
+      tags:
+        - "Authentication"
+      requestBody:
+        description: The maxiumum number of serial numbers in any request is 10.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deviceid:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        200:
+          description: Contains a list with a single item that details whether the search started successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  success:
+                  $ref: '#/components/schemas/Success'
 components:
   schemas:
-    SpacecraftId:
-      description: The unique identifier of a spacecraft
-      type: string
-    Spacecraft:
-      type: object
-      required:
-        - id
-        - name
-        - type
-      properties:
-        id:
-          $ref: '#/components/schemas/SpacecraftId'
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-            - capsule
-            - probe
-            - satellite
-            - spaceplane
-            - station
-        description:
-          type: string
     Error:
       type: object
-      required:
-        - message
       properties:
-        message:
-          description: A human readable error message
+        description:
           type: string
+    Errors:
+      type: array
+      items:
+        $ref: '#/components/schemas/Error'
+    Success:
+      type: object
+      properties:
+        success:
+          type: object
+          properties:
+            /lights:
+              type: string
+  parameters:
+    ID:
+      name: id
+      required: true
+      in: path
+      description: ID of the resource
+      schema:
+        type: string
   securitySchemes:
-    ApiKey:
-      type: apiKey
-      in: header
-      name: X-Api-Key
-security:
-  - ApiKey: []
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+tags:
+  - name: Authentication
+    description: A sample description for this `Tag Object`
+    externalDocs:
+        description: External Documentation
+        url: http://www.example.com/
+  - name: Awards
+    description: A sample description for this `Tag Object`
+    externalDocs:
+        description: External Documentation
+        url: http://www.example.com/
+  - name: Badges
+    description: A sample description for this `Tag Object`
+    externalDocs:
+        description: External Documentation
+        url: http://www.example.com/
+  - name: Belts
+    description: A sample description for this `Tag Object`
+    externalDocs:
+        description: External Documentation
+        url: http://www.example.com/
+  - name: Users
+    description: A sample description for this `Tag Object`
+    externalDocs:
+        description: External Documentation
+        url: http://www.example.com/
+
